@@ -1,0 +1,25 @@
+#!/usr/bin/sh
+
+
+if [[ $# == 0 || $1 == '-h' ]]; then
+    progname=`basename "$0"`
+    echo "$progname <version like 2.8 or 2.6> <number of field like 02001>"
+    echo "example: $progname 2.8 00302"
+    exit 0
+fi
+version=$1
+fldId=$2
+dirs="$HCIROOT/formats/hl7/$version $HCISITEDIR/formats/hl7/$version"
+for dir in $dirs
+do
+    for segment in `find $dir -type d -name "segments" -print`
+    do
+        res=$(grep -i $fldId $segment/*)
+        if [[ $res != "" ]]; then
+            echo $segment
+            echo $res
+        fi
+        #|awk -F: '{printf("%s\n%s\n", $1, $(NF)  ) }'
+    done
+done
+

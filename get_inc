@@ -1,0 +1,13 @@
+#!/usr/bin/sh
+
+
+if [[ $1 == '-h' ]]; then
+    echo "$0 <lookfor like FILE|TBL|INCLUDE> xlatename"
+    exit 0
+fi
+lookfor=$1
+filename=$2
+
+grep $lookfor $filename |sed 's/^ *//'|sort -u|awk '{print $3}' 
+
+
